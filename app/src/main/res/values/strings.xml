@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Gallery App</string>
+
+    <!-- TODO: Generics -->
+
+    <!-- TODO: Home View -->
+    <string name="menu_home">Home</string>
+
+    <!-- TODO: Gallery View -->
+    <string name="menu_gallery">Gallery</string>
+    <string name="subtitle_gallery">Visualiza todas tus fotografias</string>
+
+    <!-- TODO: Content descriptions -->
+    <string name="fab_main_description">Floating action button main app to add photos</string>
+</resources>

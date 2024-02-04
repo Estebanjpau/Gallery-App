@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base color-->
+    <color name="black">#FF171717</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="dark_gray">#575757</color>
+    <color name="gray">#777782</color>
+    <color name="gray_light">#979EA6</color>
+
+    <!-- Brand color-->
+    <color name="brand">#FFFD814A</color>
+    <color name="brand_light">#F8976C</color>
+
+    <color name="background_light">#E9EAEC</color>
+</resources>
