@@ -3,12 +3,15 @@
 
     <!-- TODO: Generics -->
 
-    <!-- TODO: Home View -->
+    <!-- TODO: Fragment Home View -->
     <string name="menu_home">Home</string>
 
-    <!-- TODO: Gallery View -->
+    <!-- TODO: Fragment Gallery View -->
     <string name="menu_gallery">Gallery</string>
     <string name="subtitle_gallery">Visualiza todas tus fotografias</string>
+
+    <!-- TODO: Fragment Camera View -->
+    <string name="take_photo">Take Photo</string>
 
     <!-- TODO: Content descriptions -->
     <string name="fab_main_description">Floating action button main app to add photos</string>

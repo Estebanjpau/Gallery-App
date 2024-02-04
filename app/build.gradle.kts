@@ -54,6 +54,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    implementation ("androidx.activity:activity-ktx:1.6.1")
+    implementation ("androidx.fragment:fragment-ktx:1.5.5")
+
     //CameraX
     implementation ("androidx.camera:camera-camera2:1.3.1")
     implementation ("androidx.camera:camera-lifecycle:1.3.1")

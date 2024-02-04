@@ -24,7 +24,7 @@ class GalleryFragment : Fragment() {
         ImageRepository(ImageDB.getIntance(requireContext()).getImageDao())
     }
 
-            override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
