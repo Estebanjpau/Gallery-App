@@ -1,4 +1,4 @@
-package com.example.galleryapp.presenter.ui.viewmodels
+package com.example.galleryapp.presenter.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

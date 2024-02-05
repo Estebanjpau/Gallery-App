@@ -17,6 +17,7 @@ import com.example.galleryapp.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.ExecutorService
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,10 +27,12 @@ class CameraService @Inject constructor(){
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var context: Context
+    private lateinit var cameraExecutor: ExecutorService
 
-    fun setCamera(outputDirectory: File, context: Context) {
+    fun setCamera(outputDirectory: File, context: Context, cameraExecutor: ExecutorService) {
         this.outputDirectory = outputDirectory
         this.context = context
+        this.cameraExecutor = cameraExecutor
     }
 
     fun startCamera(previewView: PreviewView, lifecycleOwner: LifecycleOwner, context: Context) {
@@ -71,7 +74,7 @@ class CameraService @Inject constructor(){
             mediaDir else context.filesDir
     }
 
-    fun takePhoto() {
+    fun takePhoto(callback: (String?) -> Unit) {
         val imageCapture = imageCapture ?: return
 
         val photoFile = File(
@@ -79,8 +82,7 @@ class CameraService @Inject constructor(){
             SimpleDateFormat(
                 Constants.FILE_NAME_FORMAT,
                 Locale.getDefault()
-            )
-                .format(System.currentTimeMillis()) + "jpg"
+            ).format(System.currentTimeMillis()) + ".jpg"
         )
 
         val outputOption = ImageCapture
@@ -94,14 +96,16 @@ class CameraService @Inject constructor(){
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo Saved"
-
                     Toast.makeText(context, "$msg $savedUri", Toast.LENGTH_SHORT).show()
+
+                    callback(savedUri.toString())
                 }
 
                 override fun onError(e: ImageCaptureException) {
                     Log.e(Constants.TAG, "onError: ${e.message}", e)
-                }
 
+                    callback(null)
+                }
             }
         )
     }

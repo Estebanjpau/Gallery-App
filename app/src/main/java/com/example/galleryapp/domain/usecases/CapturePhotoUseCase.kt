@@ -1,19 +1,21 @@
 package com.example.galleryapp.domain.usecases
 
-import android.content.Context
-import com.example.galleryapp.data.ImageRepository
 import com.example.galleryapp.domain.CameraService
-import com.example.galleryapp.presenter.ui.fragments.camera.CameraFragment
-import java.io.File
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class CapturePhotoUseCase @Inject constructor(
     private val cameraService: CameraService,
-    private val photoRepository: ImageRepository,
-    private val cameraFragment: CameraFragment
 ) {
 
-    fun takePhotoAndSaveInDB(){
-        cameraService.takePhoto()
+    suspend operator fun invoke(): String? = suspendCoroutine { continuation ->
+        cameraService.takePhoto { photoPath ->
+            if (photoPath != null) {
+                continuation.resume(photoPath)
+            } else {
+                continuation.resume(null)
+            }
+        }
     }
 }

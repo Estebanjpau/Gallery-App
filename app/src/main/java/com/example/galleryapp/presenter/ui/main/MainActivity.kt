@@ -1,4 +1,4 @@
-package com.example.galleryapp.presenter.ui.activities
+package com.example.galleryapp.presenter.ui.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,12 +11,9 @@ import androidx.lifecycle.Observer
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivityMainBinding
-import com.example.galleryapp.domain.CameraService
-import com.example.galleryapp.presenter.ui.fragments.GalleryFragment
-import com.example.galleryapp.presenter.ui.fragments.camera.CameraFragment
-import com.example.galleryapp.presenter.ui.viewmodels.MainViewModel
+import com.example.galleryapp.presenter.ui.camera.CameraFragment
+import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MainViewModel by viewModels()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabMain.setOnClickListener {
-
             if (allPermissionGranted()) {
                 supportFragmentManager.beginTransaction()
                     .setCustomAnimations(
@@ -88,15 +83,5 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(
             baseContext, it
         ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let { mFile ->
-            File(mFile, resources.getString(R.string.app_name)).apply {
-                mkdir()
-            }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
     }
 }

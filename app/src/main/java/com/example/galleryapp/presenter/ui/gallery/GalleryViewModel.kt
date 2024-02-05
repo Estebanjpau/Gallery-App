@@ -1,4 +1,4 @@
-package com.example.galleryapp.presenter.ui.viewmodels
+package com.example.galleryapp.presenter.ui.gallery
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
