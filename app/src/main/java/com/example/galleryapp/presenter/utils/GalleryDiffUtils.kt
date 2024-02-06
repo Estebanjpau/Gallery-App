@@ -1,11 +1,11 @@
 package com.example.galleryapp.presenter.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.galleryapp.data.entities.ImageModel
+import com.example.galleryapp.data.entities.ImageEntity
 
 class GalleryDiffUtils(
-    private val newList: List<ImageModel>,
-    private val oldList: List<ImageModel>
+    private val newList: List<ImageEntity>,
+    private val oldList: List<ImageEntity>
 ): DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

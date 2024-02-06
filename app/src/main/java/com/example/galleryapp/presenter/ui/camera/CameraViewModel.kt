@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.galleryapp.data.entities.ImageModel
+import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.domain.usecases.CapturePhotoUseCase
 import com.example.galleryapp.domain.usecases.SavePhotoInDBUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +24,9 @@ class CameraViewModel @Inject constructor(
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
+
+    private val _isPhotoSaved = MutableLiveData<Boolean>()
+    val isPhotoSaved: LiveData<Boolean> get() = _isLoading
 
     fun takePhoto() {
         if (isLoading.value != true) {
@@ -44,8 +47,10 @@ class CameraViewModel @Inject constructor(
                 _isLoading.postValue(true)
                 val imagePath = photoPath.value
                 if (!imagePath.isNullOrBlank()) {
-                    val imageModel = ImageModel(id = null, imageString = imagePath)
-                    savePhotoInDBUseCase(imageModel)
+                    val imageEntity = ImageEntity(id = null, imageString = imagePath)
+                    savePhotoInDBUseCase(imageEntity)
+
+                    Toast.makeText(context, "photo previusly saved", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, "No photo previusly saved", Toast.LENGTH_SHORT).show()
                 }

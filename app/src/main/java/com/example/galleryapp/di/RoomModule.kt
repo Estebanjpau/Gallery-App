@@ -19,12 +19,15 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun providesRoom(@ApplicationContext context: Context) = Room.databaseBuilder(context, ImageDB::class.java, RECIPE_DATABASE_NAME).build()
-
+    fun providesRoom(@ApplicationContext context: Context): ImageDB =
+        Room.databaseBuilder(context, ImageDB::class.java, RECIPE_DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Singleton
     @Provides
     fun getImageDao(database: ImageDB): ImageDao{
         return database.getImageDao()
     }
+
 }

@@ -1,17 +1,18 @@
 package com.example.galleryapp.data
 
+import androidx.lifecycle.LiveData
 import com.example.galleryapp.data.dao.ImageDao
-import com.example.galleryapp.data.entities.ImageModel
+import com.example.galleryapp.data.entities.ImageEntity
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class ImageRepository @Inject constructor(private val imageDao: ImageDao) {
 
-    fun getAllImages(): List<ImageModel> = runBlocking {
-        imageDao.getAllImages()
+    fun getAllImages(): LiveData<List<ImageEntity>> {
+        return imageDao.getAllImages()
     }
 
-    fun insertNewImage(image: ImageModel) = runBlocking {
+    fun insertNewImage(image: ImageEntity) = runBlocking {
         imageDao.insertNewImage(image)
     }
 

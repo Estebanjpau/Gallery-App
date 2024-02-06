@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.R
-import com.example.galleryapp.data.entities.ImageModel
+import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.presenter.utils.GalleryDiffUtils
 
-class GalleryAdapter(private var list: List<ImageModel>): RecyclerView.Adapter<GalleryViewHolder>(){
+class GalleryAdapter(private var list: List<ImageEntity>): RecyclerView.Adapter<GalleryViewHolder>(){
 
-    fun updateList(newList: List<ImageModel>){
+    fun updateList(newList: List<ImageEntity>){
         val recipeDiff = GalleryDiffUtils(list, newList)
         val result = DiffUtil.calculateDiff(recipeDiff)
         list = newList

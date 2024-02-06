@@ -56,6 +56,9 @@ class CameraFragment @Inject constructor() : Fragment() {
 
         binding.btnKeepCapturePhoto.setOnClickListener {
             viewModel.keepPhoto(requireContext())
+
+            binding.clCapturePhotoOptions.visibility = View.INVISIBLE
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         viewModel.photoPath.observe(
