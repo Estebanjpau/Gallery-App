@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.galleryapp.R
+import com.example.galleryapp.data.camera.CameraService
 import com.example.galleryapp.databinding.FragmentCameraBinding
-import com.example.galleryapp.domain.CameraService
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -38,6 +41,8 @@ class CameraFragment @Inject constructor() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        changeStatusBarColor(requireActivity().window)
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -83,5 +88,11 @@ class CameraFragment @Inject constructor() : Fragment() {
         super.onDestroy()
         cameraExecutor.shutdown()
         viewModel.deletePhoto()
+        _binding = null
+    }
+
+    private fun changeStatusBarColor(window: Window) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = resources.getColor(R.color.black, null)
     }
 }

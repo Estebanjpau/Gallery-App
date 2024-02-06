@@ -2,13 +2,14 @@ package com.example.galleryapp.presenter.ui.gallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.R
 import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.presenter.utils.GalleryDiffUtils
 
-class GalleryAdapter(private var list: List<ImageEntity>): RecyclerView.Adapter<GalleryViewHolder>(){
+class GalleryAdapter(private var list: List<ImageEntity>, private val fragmentManager: FragmentManager): RecyclerView.Adapter<GalleryViewHolder>(){
 
     fun updateList(newList: List<ImageEntity>){
         val recipeDiff = GalleryDiffUtils(list, newList)
@@ -24,6 +25,6 @@ class GalleryAdapter(private var list: List<ImageEntity>): RecyclerView.Adapter<
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
-        holder.paint(list[position])
+        holder.paint(list[position], fragmentManager)
     }
 }

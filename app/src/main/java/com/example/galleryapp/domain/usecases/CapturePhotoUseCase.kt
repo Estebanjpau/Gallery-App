@@ -1,21 +1,16 @@
 package com.example.galleryapp.domain.usecases
 
-import com.example.galleryapp.domain.CameraService
+import com.example.galleryapp.data.LSRepository
+import com.example.galleryapp.data.camera.CameraService
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class CapturePhotoUseCase @Inject constructor(
-    private val cameraService: CameraService,
+    private val lsRepository: LSRepository
 ) {
 
-    suspend operator fun invoke(): String? = suspendCoroutine { continuation ->
-        cameraService.takePhoto { photoPath ->
-            if (photoPath != null) {
-                continuation.resume(photoPath)
-            } else {
-                continuation.resume(null)
-            }
-        }
+    suspend operator fun invoke(): String? {
+        return lsRepository.takePhotoAndSaveInLS()
     }
 }

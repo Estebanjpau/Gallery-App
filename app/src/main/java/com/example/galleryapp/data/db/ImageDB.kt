@@ -1,4 +1,4 @@
-package com.example.galleryapp.data
+package com.example.galleryapp.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -1,4 +1,4 @@
-package com.example.galleryapp.domain
+package com.example.galleryapp.data.camera
 
 import android.content.Context
 import android.net.Uri
@@ -108,5 +108,19 @@ class CameraService @Inject constructor(){
                 }
             }
         )
+    }
+
+    fun deletePhoto(imagePath: String): Boolean {
+        val fileToDelete = File(imagePath)
+        return try {
+            if (fileToDelete.exists()) {
+                fileToDelete.delete()
+            } else {
+                false
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+            false
+        }
     }
 }

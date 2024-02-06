@@ -2,8 +2,8 @@ package com.example.galleryapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.galleryapp.data.ImageDB
 import com.example.galleryapp.data.dao.ImageDao
+import com.example.galleryapp.data.db.ImageDB
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

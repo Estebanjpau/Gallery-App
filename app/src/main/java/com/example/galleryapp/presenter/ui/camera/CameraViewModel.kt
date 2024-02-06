@@ -7,16 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.galleryapp.data.entities.ImageEntity
+import com.example.galleryapp.data.utils.DateConverter
+import com.example.galleryapp.di.LSUseCases
+import com.example.galleryapp.di.RoomUseCases
 import com.example.galleryapp.domain.usecases.CapturePhotoUseCase
-import com.example.galleryapp.domain.usecases.SavePhotoInDBUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
-    private val capturePhotoUseCase: CapturePhotoUseCase,
-    private val savePhotoInDBUseCase: SavePhotoInDBUseCase
+    private val lsUseCases: LSUseCases,
+    private val roomUseCases: RoomUseCases
 ) : ViewModel() {
 
     private val _photoPath = MutableLiveData<String?>()
@@ -25,14 +27,11 @@ class CameraViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _isPhotoSaved = MutableLiveData<Boolean>()
-    val isPhotoSaved: LiveData<Boolean> get() = _isLoading
-
     fun takePhoto() {
         if (isLoading.value != true) {
             viewModelScope.launch {
                 _isLoading.postValue(true)
-                val result = capturePhotoUseCase()
+                val result = lsUseCases.capturePhotoUseCase()
                 if (!result.isNullOrEmpty()) {
                     _photoPath.postValue(result)
                 }
@@ -47,8 +46,11 @@ class CameraViewModel @Inject constructor(
                 _isLoading.postValue(true)
                 val imagePath = photoPath.value
                 if (!imagePath.isNullOrBlank()) {
-                    val imageEntity = ImageEntity(id = null, imageString = imagePath)
-                    savePhotoInDBUseCase(imageEntity)
+                    val date = DateConverter.convertirFecha(imagePath.takeLast(14))
+                    date.take(10)
+                    println(date)
+                    val imageEntity = ImageEntity(id = null, imageString = imagePath, dateString = date)
+                    roomUseCases.savePhotoInLS(imageEntity)
 
                     Toast.makeText(context, "photo previusly saved", Toast.LENGTH_SHORT).show()
                 } else {

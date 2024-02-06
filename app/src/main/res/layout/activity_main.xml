@@ -48,6 +48,13 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <FrameLayout
+        android:id="@+id/details_layout"
+        android:layout_width="match_parent"
+        android:elevation="8dp"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/camera_layout"
         android:layout_width="match_parent"
         android:elevation="8dp"

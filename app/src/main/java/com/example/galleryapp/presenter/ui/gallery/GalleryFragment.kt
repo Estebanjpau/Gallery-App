@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentGalleryBinding
-import com.example.galleryapp.presenter.ui.camera.CameraFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
@@ -34,7 +34,7 @@ class GalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GalleryAdapter = GalleryAdapter(emptyList())
+        GalleryAdapter = GalleryAdapter(emptyList(), requireActivity().supportFragmentManager)
 
         viewModel.listImageEntity.observe(
             viewLifecycleOwner, Observer { images ->
@@ -61,5 +61,10 @@ class GalleryFragment : Fragment() {
         val sizeImage = resources.getDimensionPixelSize(R.dimen.recycler_gallery_item_width)
         val numColumns = widthScreen / sizeImage
         return if (numColumns > 0) numColumns else 1
+    }
+
+    private fun changeStatusBarColor(window: Window) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = resources.getColor(R.color.background_light, null)
     }
 }

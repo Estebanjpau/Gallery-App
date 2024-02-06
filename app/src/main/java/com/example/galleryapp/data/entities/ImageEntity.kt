@@ -9,5 +9,7 @@ data class ImageEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int?,
     @ColumnInfo(name = "image_path")
-    var imageString: String
+    var imageString: String,
+    @ColumnInfo(name = "date_string")
+    var dateString: String
 )

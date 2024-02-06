@@ -16,4 +16,10 @@
 
     <!-- TODO: Content descriptions -->
     <string name="fab_main_description">Floating action button main app to add photos</string>
+    <string name="contentExpandDetails">Boton para mostrar el drawer de detalles</string>
+    <string name="contentDetailsPopBack">Boton para retroceder en la navegacion desde la pantalla de detalles</string>
+    <string name="name_image_description">Nombre del archivo</string>
+    <string name="weight_image_description">Peso del archivo</string>
+    <string name="date_image_description">Fecha de captura</string>
+    <string name="detail_drawer">Detalles</string>
 </resources>
