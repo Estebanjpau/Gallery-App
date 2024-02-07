@@ -1,15 +1,33 @@
 <resources>
-    <string name="app_name">Gallery App</string>
 
     <!-- TODO: Generics -->
+    <string name="app_name">GalleryApp</string>
+    <string name="continue_">Continuar</string>
 
-    <!-- TODO: Home View -->
-    <string name="menu_home">Home</string>
+    <!-- TODO: Fragment Home View -->
+    <string name="menu_home">Inicio</string>
+    <string name="consult_me">¡Click Aquí!</string>
 
-    <!-- TODO: Gallery View -->
-    <string name="menu_gallery">Gallery</string>
+    <!-- TODO: Fragment Gallery View -->
+    <string name="menu_gallery">Galeria</string>
     <string name="subtitle_gallery">Visualiza todas tus fotografias</string>
+
+    <!-- TODO: Fragment Camera View -->
+    <string name="take_photo">Tomar Foto</string>
 
     <!-- TODO: Content descriptions -->
     <string name="fab_main_description">Floating action button main app to add photos</string>
+    <string name="contentExpandDetails">Boton para mostrar el drawer de detalles</string>
+    <string name="contentDetailsPopBack">Boton para retroceder en la navegacion desde la pantalla de detalles</string>
+
+    <!-- TODO: Details Drawer -->
+    <string name="detail_drawer">Detalles</string>
+    <string name="name_image_description">Nombre del archivo</string>
+    <string name="weight_image_description">Peso del archivo</string>
+    <string name="date_image_description">Fecha de captura</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_home">¡Hola!, bienvenido al proyecto Gallery App, encontrarás mucha más información en el archivo Readme del repositorio del proyecto en Github.</string>
+    <string name="repo">github.com/Estebanjpau/Gallery-App</string>
 </resources>

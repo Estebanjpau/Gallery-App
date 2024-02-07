@@ -12,6 +12,10 @@
         <item name="android:textColor">@color/gray</item>
     </style>
 
+    <style name="BodyXS" parent="ParagraphAppTextStyles">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="BodyS" parent="ParagraphAppTextStyles">
         <item name="android:textSize">14sp</item>
     </style>
@@ -75,18 +79,22 @@
     <!-- TODO: Text Styles: labels -->
     <style name="LabelsAppTextStyles">
         <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/dark_gray</item>
     </style>
 
+    <style name="labelXS" parent="LabelsAppTextStyles">
+        <item name="android:textSize">13sp</item>
+    </style>
     <style name="labelS" parent="LabelsAppTextStyles">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="labelM" parent="LabelsAppTextStyles">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="labelL" parent="LabelsAppTextStyles">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

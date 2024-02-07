@@ -9,7 +9,7 @@
         android:title="@string/menu_home" />
 
     <item
-        android:id="@+id/mSeparator"
+        android:id="@+id/mGallery"
         android:icon="@drawable/gallery_rounded"
         app:showAsAction="ifRoom"
         android:title="@string/menu_gallery" />
