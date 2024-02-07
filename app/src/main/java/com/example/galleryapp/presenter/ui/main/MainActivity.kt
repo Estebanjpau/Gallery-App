@@ -3,18 +3,20 @@ package com.example.galleryapp.presenter.ui.main
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
+import com.example.galleryapp.data.camera.CameraService
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.presenter.ui.camera.CameraFragment
 import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
 import com.example.galleryapp.presenter.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,29 +25,45 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var camaraFragment: CameraFragment
 
-    private lateinit var binding: ActivityMainBinding
+    @Inject
+    lateinit var cameraService: CameraService
 
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var cameraExecutor: ExecutorService
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        cameraService.setCamera(cameraService.getOutputDirectory(this), this, cameraExecutor)
+
         binding.bvnMain.setOnItemSelectedListener {
             val transaction = supportFragmentManager.beginTransaction()
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.content_layout)
             when (it.itemId) {
-                R.id.mHome -> transaction.setCustomAnimations(
-                    R.anim.enter_from_rigth,
-                    R.anim.exit_from_left,
-                )
-                    .replace(R.id.content_layout, HomeFragment()).commit()
+                R.id.mHome -> {
+                    if (currentFragment !is HomeFragment) {
+                        transaction.setCustomAnimations(
+                            R.anim.enter_from_rigth,
+                            R.anim.exit_from_left,
+                        )
+                        transaction.replace(R.id.content_layout, HomeFragment()).commit()
+                    }
+                }
 
-                R.id.mGallery -> transaction.setCustomAnimations(
-                    R.anim.enter_from_left,
-                    R.anim.exit_from_right,
-                )
-                    .replace(R.id.content_layout, GalleryFragment()).commit()
+                R.id.mGallery -> {
+                    if (currentFragment !is GalleryFragment) {
+                        transaction.setCustomAnimations(
+                            R.anim.enter_from_left,
+                            R.anim.exit_from_right,
+                        )
+                        transaction.replace(R.id.content_layout, GalleryFragment()).commit()
+                    }
+                }
             }
             true
         }
@@ -76,10 +94,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
-        viewModel.photoPath.observe(this, Observer { path ->
-            Toast.makeText(this, "Foto guardada en $path", Toast.LENGTH_SHORT).show()
-        })
     }
 
     override fun onRequestPermissionsResult(

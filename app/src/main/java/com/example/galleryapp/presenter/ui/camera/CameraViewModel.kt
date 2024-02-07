@@ -47,9 +47,8 @@ class CameraViewModel @Inject constructor(
                 if (!imagePath.isNullOrBlank()) {
                     val date = DateConverter.convertirFecha(imagePath.takeLast(14))
                     date.take(10)
-                    println(date)
                     val imageEntity = ImageEntity(id = null, imageString = imagePath, dateString = date)
-                    roomUseCases.savePhotoInLS(imageEntity)
+                    roomUseCases.savePhotoInDB(imageEntity)
 
                     Toast.makeText(context, "photo previusly saved", Toast.LENGTH_SHORT).show()
                 } else {

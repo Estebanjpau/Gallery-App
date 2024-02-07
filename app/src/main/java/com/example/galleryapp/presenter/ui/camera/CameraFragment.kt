@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.galleryapp.R
 import com.example.galleryapp.data.camera.CameraService
@@ -24,6 +25,9 @@ class CameraFragment @Inject constructor() : Fragment() {
 
     @Inject
     lateinit var cameraService: CameraService
+
+    @Inject
+    lateinit var glide: RequestManager
 
     private val viewModel: CameraViewModel by viewModels()
 
@@ -52,7 +56,7 @@ class CameraFragment @Inject constructor() : Fragment() {
 
         binding.btnDeleteCapturePhoto.setOnClickListener {
             deletePhotowithImagePath()
-            binding.clCapturePhotoOptions.visibility = View.INVISIBLE
+            showContraintCameraOption()
         }
 
         binding.btnTakePhoto.setOnClickListener {
@@ -61,25 +65,21 @@ class CameraFragment @Inject constructor() : Fragment() {
 
         binding.btnKeepCapturePhoto.setOnClickListener {
             viewModel.keepPhoto(requireContext())
-
-            binding.clCapturePhotoOptions.visibility = View.INVISIBLE
+            showContraintCameraOption()
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         viewModel.photoPath.observe(
             viewLifecycleOwner, Observer {
                 if (it != null) {
+
+                    glide.load(it).into(binding.ivPreviewPhoto)
+
+                    binding.clCameraOptions.visibility = View.INVISIBLE
                     binding.clCapturePhotoOptions.visibility = View.VISIBLE
-                    Glide.with(this)
-                        .load(it)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(binding.ivPreviewPhoto)
                 }
             }
         )
-
-        cameraService.setCamera(cameraService.getOutputDirectory(requireContext()), requireContext(), cameraExecutor)
 
         cameraService.startCamera(binding.previewView, viewLifecycleOwner, requireContext())
     }
@@ -95,6 +95,11 @@ class CameraFragment @Inject constructor() : Fragment() {
         if (!viewModel.photoPath.value.isNullOrEmpty()){
             viewModel.deletePhoto(viewModel.photoPath.value!!)
         }
+    }
+
+    private fun showContraintCameraOption(){
+        binding.clCapturePhotoOptions.visibility = View.INVISIBLE
+        binding.clCameraOptions.visibility = View.VISIBLE
     }
 
     private fun changeStatusBarColor(window: Window) {

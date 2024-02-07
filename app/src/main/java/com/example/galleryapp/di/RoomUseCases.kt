@@ -7,5 +7,5 @@ import com.example.galleryapp.domain.usecases.SavePhotoInDBUseCase
 data class RoomUseCases(
     val getAllImages: GetAllImageUseCase,
     val deleteImagesFromDB: DeleteImageFromDBUseCase,
-    val savePhotoInLS: SavePhotoInDBUseCase
+    val savePhotoInDB: SavePhotoInDBUseCase
 )

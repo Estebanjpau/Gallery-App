@@ -1,6 +1,8 @@
 package com.example.galleryapp.presenter.ui.gallery
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentGalleryBinding
@@ -26,6 +29,8 @@ class GalleryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var galleryAdapter: GalleryAdapter
+
+    private var selectedImagePath: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,11 +66,21 @@ class GalleryFragment : Fragment() {
         }
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { path ->
+                selectedImagePath = path
+                viewModel.saveCopyImage(path)
+
+            }
+        }
     }
 
     private fun setWidthRecyclerItemsColum(): Int {

@@ -9,15 +9,20 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.example.galleryapp.R
 import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.databinding.FragmentDetailsBinding
-import com.example.galleryapp.presenter.ui.drawers.DetailsDrawerFragment
+import com.example.galleryapp.presenter.utils.drawers.DetailsDrawerFragment
 import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
+
+    @Inject
+    lateinit var glide: RequestManager
 
     companion object {
         private const val ARG_IMAGE_ID = "imageId"
@@ -76,7 +81,7 @@ class DetailsFragment : Fragment() {
             detailsDrawerFragment.show(parentFragmentManager, "DetailsDrawerFragment")
         }
 
-        Glide.with(requireContext()).load(imageEntity.imageString).centerCrop().into(binding.ivDetailsScreen)
+        glide.load(imageEntity.imageString).centerCrop().into(binding.ivDetailsScreen)
 
         binding.btnDetailsPopBack.setOnClickListener {
             popBackStack()

@@ -1,5 +1,6 @@
 package com.example.galleryapp.data
 
+import android.net.Uri
 import com.example.galleryapp.data.camera.CameraService
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -20,4 +21,11 @@ class LSRepository @Inject constructor(private val cameraService: CameraService)
         return cameraService.deletePhoto(imagePath)
     }
 
+    fun copyPhotoAndSaveInLs(imagePath: Uri): String? {
+        return cameraService.copyImageToOutputDirectory(imagePath)
+    }
+
+    fun getSizePhotoFromLS(path: String): String {
+        return cameraService.getFileSizeString(path)
+    }
 }

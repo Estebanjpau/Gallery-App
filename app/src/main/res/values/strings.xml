@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Gallery App</string>
 
     <!-- TODO: Generics -->
+    <string name="app_name">GalleryApp</string>
     <string name="continue_">Continuar</string>
 
     <!-- TODO: Fragment Home View -->
