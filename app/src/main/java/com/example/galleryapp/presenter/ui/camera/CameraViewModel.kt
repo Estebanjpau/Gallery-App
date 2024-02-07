@@ -10,7 +10,6 @@ import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.data.utils.DateConverter
 import com.example.galleryapp.di.LSUseCases
 import com.example.galleryapp.di.RoomUseCases
-import com.example.galleryapp.domain.usecases.CapturePhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -61,12 +60,14 @@ class CameraViewModel @Inject constructor(
         }
     }
 
-    fun editPhoto() {
-
-    }
-
-    fun deletePhoto() {
-
+    fun deletePhoto(imagePath: String) {
+        if (isLoading.value != true) {
+            viewModelScope.launch {
+                _isLoading.postValue(true)
+                lsUseCases.deleteImageFromLSUseCase(imagePath)
+            }
+        }
+        _isLoading.postValue(false)
     }
 }
 

@@ -110,8 +110,8 @@ class CameraService @Inject constructor(){
         )
     }
 
-    fun deletePhoto(imagePath: String): Boolean {
-        val fileToDelete = File(imagePath)
+    fun deletePhoto(imageUri: String): Boolean {
+        val fileToDelete = File(Uri.parse(imageUri).path ?: "")
         return try {
             if (fileToDelete.exists()) {
                 fileToDelete.delete()

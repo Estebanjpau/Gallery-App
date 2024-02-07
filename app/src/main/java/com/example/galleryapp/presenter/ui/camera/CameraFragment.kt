@@ -51,7 +51,7 @@ class CameraFragment @Inject constructor() : Fragment() {
         }
 
         binding.btnDeleteCapturePhoto.setOnClickListener {
-            viewModel.deletePhoto()
+            deletePhotowithImagePath()
             binding.clCapturePhotoOptions.visibility = View.INVISIBLE
         }
 
@@ -87,8 +87,14 @@ class CameraFragment @Inject constructor() : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
-        viewModel.deletePhoto()
+        deletePhotowithImagePath()
         _binding = null
+    }
+
+    fun deletePhotowithImagePath(){
+        if (!viewModel.photoPath.value.isNullOrEmpty()){
+            viewModel.deletePhoto(viewModel.photoPath.value!!)
+        }
     }
 
     private fun changeStatusBarColor(window: Window) {

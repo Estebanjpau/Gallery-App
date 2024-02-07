@@ -16,7 +16,7 @@ class RoomRepository @Inject constructor(private val imageDao: ImageDao) {
         imageDao.insertNewImage(image)
     }
 
-    fun deleteImageFromDB(int:Int) = runBlocking {
+    fun deleteImageFromDB(int:Int) = runBlocking{
         imageDao.deleteImageById(int)
     }
 

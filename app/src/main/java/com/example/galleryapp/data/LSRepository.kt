@@ -16,8 +16,8 @@ class LSRepository @Inject constructor(private val cameraService: CameraService)
         }
     }
 
-    fun deletePhotoInLS(imagePath: String) {
-        cameraService.deletePhoto(imagePath)
+    fun deletePhotoInLS(imagePath: String) : Boolean {
+        return cameraService.deletePhoto(imagePath)
     }
 
 }

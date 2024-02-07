@@ -1,6 +1,8 @@
 package com.example.galleryapp.presenter.ui.gallery
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +25,7 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var GalleryAdapter: GalleryAdapter
+    private lateinit var galleryAdapter: GalleryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,22 +37,31 @@ class GalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GalleryAdapter = GalleryAdapter(emptyList(), requireActivity().supportFragmentManager)
+        galleryAdapter = GalleryAdapter(emptyList(), requireActivity().supportFragmentManager)
+
+        changeStatusBarColor(requireActivity().window)
 
         viewModel.listImageEntity.observe(
             viewLifecycleOwner, Observer { images ->
                 images?.let {
                     if (it.isNotEmpty()) {
-                        GalleryAdapter.updateList(it)
+                        galleryAdapter.updateList(it)
                     }
                 }
             })
 
+        binding.btnPickImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, Constants.PICK_IMAGE_REQUEST_CODE)
+        }
+
         binding.rvGalleryF.apply {
             layoutManager = GridLayoutManager(requireContext(), setWidthRecyclerItemsColum())
-            adapter = GalleryAdapter
+            adapter = galleryAdapter
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

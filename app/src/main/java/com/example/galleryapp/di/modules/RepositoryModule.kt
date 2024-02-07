@@ -1,7 +1,9 @@
-package com.example.galleryapp.di
+package com.example.galleryapp.di.modules
 
 import com.example.galleryapp.data.LSRepository
 import com.example.galleryapp.data.RoomRepository
+import com.example.galleryapp.di.LSUseCases
+import com.example.galleryapp.di.RoomUseCases
 import com.example.galleryapp.domain.usecases.CapturePhotoUseCase
 import com.example.galleryapp.domain.usecases.DeleteImageFromDBUseCase
 import com.example.galleryapp.domain.usecases.DeleteImageFromLSUseCase

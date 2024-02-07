@@ -9,5 +9,4 @@ class DeleteImageFromDBUseCase @Inject constructor(
     operator fun invoke(int: Int) {
         return roomRepository.deleteImageFromDB(int)
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.galleryapp.di
+package com.example.galleryapp.di.modules
 
 import android.content.Context
 import androidx.room.Room

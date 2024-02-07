@@ -13,6 +13,7 @@ import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.presenter.ui.camera.CameraFragment
 import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
+import com.example.galleryapp.presenter.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,7 +32,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportFragmentManager.beginTransaction().add(R.id.content_layout, GalleryFragment()).commit()
+        binding.bvnMain.setOnItemSelectedListener {
+            val transaction = supportFragmentManager.beginTransaction()
+            when (it.itemId) {
+                R.id.mHome -> transaction.setCustomAnimations(
+                    R.anim.enter_from_rigth,
+                    R.anim.exit_from_left,
+                )
+                    .replace(R.id.content_layout, HomeFragment()).commit()
+
+                R.id.mGallery -> transaction.setCustomAnimations(
+                    R.anim.enter_from_left,
+                    R.anim.exit_from_right,
+                )
+                    .replace(R.id.content_layout, GalleryFragment()).commit()
+            }
+            true
+        }
+
+        supportFragmentManager.beginTransaction().add(R.id.content_layout, HomeFragment()).commit()
 
         if (allPermissionGranted()) {
             Toast.makeText(this, "We have permission", Toast.LENGTH_SHORT).show()

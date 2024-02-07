@@ -12,8 +12,8 @@ import com.example.galleryapp.presenter.utils.GalleryDiffUtils
 class GalleryAdapter(private var list: List<ImageEntity>, private val fragmentManager: FragmentManager): RecyclerView.Adapter<GalleryViewHolder>(){
 
     fun updateList(newList: List<ImageEntity>){
-        val recipeDiff = GalleryDiffUtils(list, newList)
-        val result = DiffUtil.calculateDiff(recipeDiff)
+        val galleryDiff = GalleryDiffUtils(list, newList)
+        val result = DiffUtil.calculateDiff(galleryDiff)
         list = newList
         result.dispatchUpdatesTo(this)
     }

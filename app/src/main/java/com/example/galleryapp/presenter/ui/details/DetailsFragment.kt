@@ -13,7 +13,10 @@ import com.example.galleryapp.R
 import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.databinding.FragmentDetailsBinding
 import com.example.galleryapp.presenter.ui.drawers.DetailsDrawerFragment
+import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
     companion object {
@@ -34,7 +37,7 @@ class DetailsFragment : Fragment() {
 
     private lateinit var imageEntity: ImageEntity
 
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel:DetailsViewModel by viewModels()
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -62,7 +65,9 @@ class DetailsFragment : Fragment() {
         }
 
         binding.btnDeletePhoto.setOnClickListener {
-            viewModel.deletePhoto(imageEntity.id!!)
+            popBackStack()
+            viewModel.deletePhoto(imageEntity.imageString, imageEntity.id!!)
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.content_layout, GalleryFragment()).commit()
         }
 
         binding.btnExpandDetails.setOnClickListener {
@@ -74,14 +79,17 @@ class DetailsFragment : Fragment() {
         Glide.with(requireContext()).load(imageEntity.imageString).centerCrop().into(binding.ivDetailsScreen)
 
         binding.btnDetailsPopBack.setOnClickListener {
-
-            requireActivity().supportFragmentManager.popBackStack()
+            popBackStack()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun popBackStack(){
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
     private fun changeStatusBarColor(window: Window) {
