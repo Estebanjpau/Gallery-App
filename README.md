@@ -24,4 +24,4 @@ Bienvenido a la aplicación GalleryApp, especialmente diseñada para que puedas 
 
 ## Linkedin👤
 
-### Puedes encontrarme a través `linkedin ` como *Esteban Pacheco*, puedes visitar mi perfil en GitHub haciendo [¡Click Aquí!](https://github.com/tu-usuario), ¡Agregame!
+### Puedes encontrarme a través `linkedin ` como *Esteban Pacheco*, puedes visitar mi perfil en GitHub haciendo [¡Click Aquí!](https://www.linkedin.com/in/esteban-pacheco-16b8a21a8/), ¡Agregame!
