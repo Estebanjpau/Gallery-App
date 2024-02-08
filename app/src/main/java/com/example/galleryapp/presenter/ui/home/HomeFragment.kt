@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.github.setOnClickListener {
-            val url = "https://github.com/Estebanjpau/Gallery-App/blob/main/README.md"
+            val url = "https://github.com/Estebanjpau/Gallery-App/blob/master/README.md"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
         }
