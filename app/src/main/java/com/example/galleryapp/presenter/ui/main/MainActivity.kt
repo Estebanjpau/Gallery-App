@@ -2,19 +2,20 @@ package com.example.galleryapp.presenter.ui.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.data.camera.CameraService
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.presenter.ui.camera.CameraFragment
-import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
-import com.example.galleryapp.presenter.ui.home.HomeFragment
+import com.example.galleryapp.presenter.utils.SnackbarManager
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -28,8 +29,13 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var cameraService: CameraService
 
-    private lateinit var cameraExecutor: ExecutorService
+    @Inject
+    lateinit var snackbarManager: SnackbarManager
 
+    private var lastActionId: Int? = null
+
+    private lateinit var cameraExecutor: ExecutorService
+    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,46 +43,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        cameraExecutor = Executors.newSingleThreadExecutor()
+        initCamera()
+        initNavigation()
+        verifyPermissions()
 
-        cameraService.setCamera(cameraService.getOutputDirectory(this), this, cameraExecutor)
-
-        binding.bvnMain.setOnItemSelectedListener {
-            val transaction = supportFragmentManager.beginTransaction()
-            val currentFragment = supportFragmentManager.findFragmentById(R.id.content_layout)
-            when (it.itemId) {
-                R.id.mHome -> {
-                    if (currentFragment !is HomeFragment) {
-                        transaction.setCustomAnimations(
-                            R.anim.enter_from_rigth,
-                            R.anim.exit_from_left,
-                        )
-                        transaction.replace(R.id.content_layout, HomeFragment()).commit()
-                    }
-                }
-
-                R.id.mGallery -> {
-                    if (currentFragment !is GalleryFragment) {
-                        transaction.setCustomAnimations(
-                            R.anim.enter_from_left,
-                            R.anim.exit_from_right,
-                        )
-                        transaction.replace(R.id.content_layout, GalleryFragment()).commit()
-                    }
-                }
-            }
-            true
-        }
-
-        supportFragmentManager.beginTransaction().add(R.id.content_layout, HomeFragment()).commit()
-
-        if (allPermissionGranted()) {
-            Toast.makeText(this, "We have permission", Toast.LENGTH_SHORT).show()
-        } else {
-            ActivityCompat.requestPermissions(
-                this, Constants.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISION
-            )
-        }
 
         binding.fabMain.setOnClickListener {
             if (allPermissionGranted()) {
@@ -96,6 +66,44 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun verifyPermissions() {
+        if (allPermissionGranted()) {
+            Timber.v("PERMISSION GRANTED")
+        } else {
+            ActivityCompat.requestPermissions(
+                this, Constants.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISION
+            )
+        }
+    }
+
+    private fun initNavigation() {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHost.navController
+        binding.bnvMain.setupWithNavController(navController)
+        binding.bnvMain.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.homeFragment -> {
+                    if (lastActionId != R.id.action_gallery_to_home) {
+                        navController.navigate(R.id.action_gallery_to_home)
+                        lastActionId = R.id.action_gallery_to_home
+                    }
+                }
+                R.id.galleryFragment -> {
+                    if (lastActionId != R.id.action_home_to_gallery) {
+                        navController.navigate(R.id.action_home_to_gallery)
+                        lastActionId = R.id.action_home_to_gallery
+                    }
+                }
+            }
+            true
+        }
+    }
+
+    private fun initCamera() {
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        cameraService.setCamera(cameraService.getOutputDirectory(this), this, cameraExecutor)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -105,9 +113,9 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == Constants.REQUEST_CODE_PERMISION) {
 
             if (allPermissionGranted()) {
-                //
+                snackbarManager.showSnackbar("Permissions granted", binding.root)
             } else {
-                Toast.makeText(this, "permission denay", Toast.LENGTH_SHORT).show()
+                snackbarManager.showSnackbar("Permissions denay", binding.root)
             }
         }
     }

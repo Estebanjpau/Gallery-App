@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.galleryapp.data.entities.ImageEntity
-import kotlin.coroutines.Continuation
 
 @Dao
 interface ImageDao {
@@ -21,6 +20,6 @@ interface ImageDao {
     fun deleteImageById(id: Int)
 
     @Query("DELETE FROM images_table ")
-    fun deleteAllimage()
+    fun deleteAllImage()
 
 }

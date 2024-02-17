@@ -1,17 +1,13 @@
 package com.example.galleryapp.presenter.utils.drawers
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.databinding.ModalDetailsDrawerBinding
 import com.example.galleryapp.di.LSUseCases
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileInputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,8 +31,6 @@ class DetailsDrawerFragment : BottomSheetDialogFragment() {
             return fragment
         }
     }
-
-    private lateinit var imageEntity: ImageEntity
 
     private var _binding: ModalDetailsDrawerBinding? = null
     private val binding get() = _binding!!

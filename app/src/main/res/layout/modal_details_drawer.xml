@@ -12,7 +12,7 @@
         android:layout_marginTop="24dp"
         android:layout_height="4dp"
         android:background="@drawable/top_round_bg_with_opacity"
-        android:backgroundTint="@color/black25op"
+        android:backgroundTint="@color/overlay_black_25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

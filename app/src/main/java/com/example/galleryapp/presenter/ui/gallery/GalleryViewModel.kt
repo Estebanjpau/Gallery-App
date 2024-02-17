@@ -25,8 +25,8 @@ class GalleryViewModel @Inject constructor(
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    private val _isLoading = MutableLiveData(false)
+    private val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun saveCopyImage(imagePath:Uri){
         if (isLoading.value != true) {

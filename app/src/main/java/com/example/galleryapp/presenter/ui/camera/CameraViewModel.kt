@@ -1,7 +1,6 @@
 package com.example.galleryapp.presenter.ui.camera
 
-import android.content.Context
-import android.widget.Toast
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +9,7 @@ import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.data.utils.DateConverter
 import com.example.galleryapp.di.LSUseCases
 import com.example.galleryapp.di.RoomUseCases
+import com.example.galleryapp.presenter.utils.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,17 +17,18 @@ import javax.inject.Inject
 @HiltViewModel
 class CameraViewModel @Inject constructor(
     private val lsUseCases: LSUseCases,
-    private val roomUseCases: RoomUseCases
+    private val roomUseCases: RoomUseCases,
+    private val snackbarManager: SnackbarManager
 ) : ViewModel() {
 
     private val _photoPath = MutableLiveData<String?>()
     val photoPath: LiveData<String?> get() = _photoPath
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    private val _isLoading = MutableLiveData(false)
+    private val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun takePhoto() {
-        if (isLoading.value != true) {
+        if (isLoading.value == false) {
             viewModelScope.launch {
                 _isLoading.postValue(true)
                 val result = lsUseCases.capturePhotoUseCase()
@@ -39,7 +40,7 @@ class CameraViewModel @Inject constructor(
         }
     }
 
-    fun keepPhoto(context: Context) {
+    fun keepPhoto(view: View) {
         if (isLoading.value != true) {
             viewModelScope.launch {
                 _isLoading.postValue(true)
@@ -50,9 +51,9 @@ class CameraViewModel @Inject constructor(
                     val imageEntity = ImageEntity(id = null, imageString = imagePath, dateString = date)
                     roomUseCases.savePhotoInDB(imageEntity)
 
-                    Toast.makeText(context, "photo previusly saved", Toast.LENGTH_SHORT).show()
+                    snackbarManager.showSnackbar("Saved photo", view)
                 } else {
-                    Toast.makeText(context, "No photo previusly saved", Toast.LENGTH_SHORT).show()
+                    snackbarManager.showSnackbar("Can't saved photo", view)
                 }
                 _isLoading.postValue(false)
             }

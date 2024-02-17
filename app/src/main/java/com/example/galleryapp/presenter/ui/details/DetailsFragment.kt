@@ -8,13 +8,12 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.example.galleryapp.R
 import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.databinding.FragmentDetailsBinding
-import com.example.galleryapp.presenter.utils.drawers.DetailsDrawerFragment
 import com.example.galleryapp.presenter.ui.gallery.GalleryFragment
+import com.example.galleryapp.presenter.utils.drawers.DetailsDrawerFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -72,7 +71,7 @@ class DetailsFragment : Fragment() {
         binding.btnDeletePhoto.setOnClickListener {
             popBackStack()
             viewModel.deletePhoto(imageEntity.imageString, imageEntity.id!!)
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.content_layout, GalleryFragment()).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, GalleryFragment()).commit()
         }
 
         binding.btnExpandDetails.setOnClickListener {

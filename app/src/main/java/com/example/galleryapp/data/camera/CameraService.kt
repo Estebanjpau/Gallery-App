@@ -3,7 +3,6 @@ package com.example.galleryapp.data.camera
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -118,9 +117,6 @@ class CameraService @Inject constructor(){
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo Saved"
-                    Toast.makeText(context, "$msg $savedUri", Toast.LENGTH_SHORT).show()
-
                     callback(savedUri.toString())
                 }
 

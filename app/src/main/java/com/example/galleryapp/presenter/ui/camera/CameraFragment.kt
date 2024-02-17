@@ -9,11 +9,10 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.galleryapp.R
 import com.example.galleryapp.data.camera.CameraService
+import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.databinding.FragmentCameraBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
@@ -32,6 +31,7 @@ class CameraFragment @Inject constructor() : Fragment() {
     private val viewModel: CameraViewModel by viewModels()
 
     private var _binding: FragmentCameraBinding? = null
+
     private val binding get() = _binding!!
 
     private lateinit var cameraExecutor: ExecutorService
@@ -55,8 +55,8 @@ class CameraFragment @Inject constructor() : Fragment() {
         }
 
         binding.btnDeleteCapturePhoto.setOnClickListener {
-            deletePhotowithImagePath()
-            showContraintCameraOption()
+            deletePhotoWithImagePath()
+            showConstraintCameraOption()
         }
 
         binding.btnTakePhoto.setOnClickListener {
@@ -64,8 +64,8 @@ class CameraFragment @Inject constructor() : Fragment() {
         }
 
         binding.btnKeepCapturePhoto.setOnClickListener {
-            viewModel.keepPhoto(requireContext())
-            showContraintCameraOption()
+            viewModel.keepPhoto(binding.root)
+            showConstraintCameraOption()
             requireActivity().supportFragmentManager.popBackStack()
         }
 
@@ -87,17 +87,16 @@ class CameraFragment @Inject constructor() : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
-        deletePhotowithImagePath()
         _binding = null
     }
 
-    fun deletePhotowithImagePath(){
+    private fun deletePhotoWithImagePath(){
         if (!viewModel.photoPath.value.isNullOrEmpty()){
             viewModel.deletePhoto(viewModel.photoPath.value!!)
         }
     }
 
-    private fun showContraintCameraOption(){
+    private fun showConstraintCameraOption(){
         binding.clCapturePhotoOptions.visibility = View.INVISIBLE
         binding.clCameraOptions.visibility = View.VISIBLE
     }

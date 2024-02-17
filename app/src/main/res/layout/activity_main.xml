@@ -7,10 +7,27 @@
     tools:context=".presenter.ui.main.MainActivity">
 
     <FrameLayout
-        android:id="@+id/content_layout"
+        android:id="@+id/topSnackbarContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="70dp"
+        android:layout_gravity="top"
+        android:layout_margin="24dp" />
+
+    <FrameLayout
+        android:id="@+id/CenterSnackbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="140dp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:navGraph="@navigation/main_graph"
+        app:defaultNavHost="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_main"
@@ -37,12 +54,15 @@
         app:fabCradleVerticalOffset="12dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bvn_main"
+            android:id="@+id/bnv_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             app:itemIconSize="36dp"
+            app:itemRippleColor="@color/transparent"
             app:labelVisibilityMode="unlabeled"
+            app:itemActiveIndicatorStyle="@style/AppCustomIndicator"
+            app:itemIconTint="@color/bottom_nav_selector_item"
             app:menu="@menu/menu_bottom_main" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -57,8 +77,9 @@
     <FrameLayout
         android:id="@+id/camera_layout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:elevation="8dp"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        app:layout_anchor="@+id/nav_host_fragment"
+        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -36,9 +36,9 @@
             android:id="@+id/tv_subtitle_gallery_f"
             style="@style/SubtitleS"
             android:layout_width="wrap_content"
-            android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="12dp"
             android:text="@string/subtitle_gallery"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rv_gallery_f"
@@ -46,10 +46,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_gallery_f"
-            android:layout_marginTop="24dp"
-            android:layout_width="match_parent"
-            android:layout_margin="6dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="6dp"
+            android:paddingBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_subtitle_gallery_f" />

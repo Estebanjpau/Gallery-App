@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentGalleryBinding

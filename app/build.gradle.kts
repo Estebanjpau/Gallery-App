@@ -25,12 +25,16 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        debug {
+            buildConfigField("Boolean", "DEBUG", "true")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
     defaultConfig {
@@ -58,8 +62,15 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation ("androidx.activity:activity-ktx:1.6.1")
-    implementation ("androidx.fragment:fragment-ktx:1.5.5")
+    implementation ("androidx.activity:activity-ktx:1.8.2")
+    implementation ("androidx.fragment:fragment-ktx:1.6.2")
+
+    //Timber
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+
+    //NavComponent
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     //CameraX
     implementation ("androidx.camera:camera-camera2:$cameraXversion")
@@ -87,7 +98,6 @@ dependencies {
     //Glide
     implementation ("com.github.bumptech.glide:glide:$glideVersion")
     ksp ("com.github.bumptech.glide:ksp:$glideVersion")
-
 
 }
 

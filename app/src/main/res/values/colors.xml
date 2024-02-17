@@ -8,8 +8,11 @@
     <color name="gray">#676772</color>
     <color name="gray_light">#777E86</color>
 
-    <!-- Base color  -->
-    <color name="black25op">#40171717</color>
+    <!-- Overlays  -->
+    <color name="overlay_black_25">#40171717</color>
+    <color name="overlay_black_10">#1A171717</color>
+    <color name="overlay_brand_25">#40FD814A</color>
+    <color name="overlay_background_dark_25">#333</color>
 
     <!-- Brand color-->
     <color name="brand">#FFFD814A</color>
