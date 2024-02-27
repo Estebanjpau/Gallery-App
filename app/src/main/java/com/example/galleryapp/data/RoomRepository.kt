@@ -12,6 +12,10 @@ class RoomRepository @Inject constructor(private val imageDao: ImageDao) {
         return imageDao.getAllImages()
     }
 
+    fun getImageById(id: Int): ImageEntity {
+        return runBlocking { imageDao.getImagesById(id) }
+    }
+
     fun insertNewImage(image: ImageEntity) = runBlocking {
         imageDao.insertNewImage(image)
     }

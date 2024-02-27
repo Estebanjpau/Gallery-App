@@ -2,17 +2,18 @@ package com.example.galleryapp.presenter.ui.gallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.R
 import com.example.galleryapp.data.entities.ImageEntity
-import com.example.galleryapp.presenter.utils.GalleryDiffUtils
+import com.example.galleryapp.presenter.ui.main.MainActivity
+import com.example.galleryapp.presenter.utils.DiffUtils
 
-class GalleryAdapter(private var list: List<ImageEntity>, private val fragmentManager: FragmentManager): RecyclerView.Adapter<GalleryViewHolder>(){
+class GalleryAdapter(private var list: List<ImageEntity>, private var mainActivity: MainActivity): RecyclerView.Adapter<GalleryViewHolder>(){
 
     fun updateList(newList: List<ImageEntity>){
-        val galleryDiff = GalleryDiffUtils(list, newList)
+        val galleryDiff = DiffUtils(list, newList)
         val result = DiffUtil.calculateDiff(galleryDiff)
         list = newList
         result.dispatchUpdatesTo(this)
@@ -25,6 +26,6 @@ class GalleryAdapter(private var list: List<ImageEntity>, private val fragmentMa
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
-        holder.paint(list[position], fragmentManager)
+        holder.paint(list[position], mainActivity)
     }
 }

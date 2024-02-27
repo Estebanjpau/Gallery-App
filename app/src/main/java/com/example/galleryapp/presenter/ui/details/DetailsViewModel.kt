@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.galleryapp.data.entities.ImageEntity
 import com.example.galleryapp.di.LSUseCases
 import com.example.galleryapp.di.RoomUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,9 @@ class DetailsViewModel @Inject constructor(
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
+    private val _imageEntity = MutableLiveData<ImageEntity?>()
+    val imageEntity: LiveData<ImageEntity?> get() = _imageEntity
+
     private val _isLoading = MutableLiveData(false)
     private val isLoading: LiveData<Boolean> get() = _isLoading
 
@@ -28,7 +32,7 @@ class DetailsViewModel @Inject constructor(
             viewModelScope.launch {
                 _isLoading.postValue(true)
                 val it = lsUseCases.deleteImageFromLSUseCase(imagePath)
-                if (it){
+                if (it) {
                     deletePhotoFromRoomDB(id)
                 }
             }
@@ -36,10 +40,15 @@ class DetailsViewModel @Inject constructor(
         _isLoading.postValue(false)
     }
 
-    private fun deletePhotoFromRoomDB(id:Int){
+    fun loadEntity(id: Int) {
+        coroutineScope.launch {
+            _imageEntity.postValue(roomUseCases.getImageById(id))
+        }
+    }
+
+    private fun deletePhotoFromRoomDB(id: Int) {
         coroutineScope.launch {
             roomUseCases.deleteImagesFromDB(id)
         }
     }
-
 }

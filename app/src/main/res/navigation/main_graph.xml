@@ -35,16 +35,4 @@
             app:exitAnim="@anim/exit_from_left" />
     </fragment>
 
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.example.galleryapp.presenter.ui.camera.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
-
-    <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.example.galleryapp.presenter.ui.details.DetailsFragment"
-        android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
-
 </navigation>

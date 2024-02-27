@@ -13,16 +13,24 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentGalleryBinding
+import com.example.galleryapp.presenter.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
 
     private val viewModel: GalleryViewModel by viewModels()
+
+    @Inject
+    lateinit var mainInstance: MainActivity
 
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +49,7 @@ class GalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        galleryAdapter = GalleryAdapter(emptyList(), requireActivity().supportFragmentManager)
+        galleryAdapter = GalleryAdapter(emptyList(), mainInstance)
 
         changeStatusBarColor(requireActivity().window)
 

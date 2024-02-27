@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -52,6 +53,7 @@ dependencies {
     val cameraXversion = "1.3.1"
     val lifecycleVersion = "2.7.0"
     val glideVersion = "4.16.0"
+    val navComponent = "2.7.7"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -69,8 +71,8 @@ dependencies {
     implementation ("com.jakewharton.timber:timber:5.0.1")
 
     //NavComponent
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-fragment-ktx:$navComponent")
+    implementation ("androidx.navigation:navigation-ui-ktx:$navComponent")
 
     //CameraX
     implementation ("androidx.camera:camera-camera2:$cameraXversion")

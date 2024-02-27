@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".presenter.ui.main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/topSnackbarContainer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="top"
-        android:layout_margin="24dp" />
-
-    <FrameLayout
-        android:id="@+id/CenterSnackbarContainer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="140dp" />
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -67,12 +52,20 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_camera_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        android:visibility="gone"
+        app:navGraph="@navigation/camera_graph"/>
+
     <FrameLayout
         android:id="@+id/details_layout"
         android:layout_width="match_parent"
         android:elevation="8dp"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/camera_layout"

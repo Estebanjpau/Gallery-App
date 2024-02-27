@@ -2,17 +2,22 @@ package com.example.galleryapp.presenter.ui.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.galleryapp.Constants
 import com.example.galleryapp.R
 import com.example.galleryapp.data.camera.CameraService
 import com.example.galleryapp.databinding.ActivityMainBinding
-import com.example.galleryapp.presenter.ui.camera.CameraFragment
+import com.example.galleryapp.presenter.ui.camera.CameraFragmentDirections
+import com.example.galleryapp.presenter.ui.gallery.GalleryFragmentDirections
+import com.example.galleryapp.presenter.ui.home.HomeFragmentDirections
+import com.example.galleryapp.presenter.utils.listeners.CameraContainerListener
 import com.example.galleryapp.presenter.utils.SnackbarManager
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -21,10 +26,7 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var camaraFragment: CameraFragment
+class MainActivity @Inject constructor() : AppCompatActivity(), CameraContainerListener {
 
     @Inject
     lateinit var cameraService: CameraService
@@ -34,9 +36,9 @@ class MainActivity : AppCompatActivity() {
 
     private var lastActionId: Int? = null
 
+    lateinit var binding: ActivityMainBinding
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var navController: NavController
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,17 +49,11 @@ class MainActivity : AppCompatActivity() {
         initNavigation()
         verifyPermissions()
 
+        binding.navCameraContainer.visibility = View.GONE
 
         binding.fabMain.setOnClickListener {
             if (allPermissionGranted()) {
-                supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(
-                        R.anim.enter_from_bottom,
-                        R.anim.enter_from_top,
-                        R.anim.exit_from_top,
-                        R.anim.exit_from_bottom
-                    )
-                    .add(R.id.camera_layout, CameraFragment()).addToBackStack("home").commit()
+                onHideNavHostContainer()
             } else {
                 ActivityCompat.requestPermissions(
                     this, Constants.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISION
@@ -84,13 +80,13 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.homeFragment -> {
                     if (lastActionId != R.id.action_gallery_to_home) {
-                        navController.navigate(R.id.action_gallery_to_home)
+                        navController.navigate(GalleryFragmentDirections.actionGalleryToHome())
                         lastActionId = R.id.action_gallery_to_home
                     }
                 }
                 R.id.galleryFragment -> {
                     if (lastActionId != R.id.action_home_to_gallery) {
-                        navController.navigate(R.id.action_home_to_gallery)
+                        navController.navigate(HomeFragmentDirections.actionHomeToGallery())
                         lastActionId = R.id.action_home_to_gallery
                     }
                 }
@@ -114,8 +110,10 @@ class MainActivity : AppCompatActivity() {
 
             if (allPermissionGranted()) {
                 snackbarManager.showSnackbar("Permissions granted", binding.root)
+                Timber.i("THE USER HAS NOT GRANTED THE CAMERA PERMISSION")
             } else {
                 snackbarManager.showSnackbar("Permissions denay", binding.root)
+                Timber.i("THE USER GRANTED THE CAMERA PERMISSION ")
             }
         }
     }
@@ -124,5 +122,21 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(
             baseContext, it
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onHideNavCameraContainer() {
+        binding.navHostFragment.visibility = View.VISIBLE
+        findNavController(R.id.nav_camera_container).navigate(R.id.cameraFragment)
+        binding.navCameraContainer.visibility = View.GONE
+    }
+
+   private fun onHideNavHostContainer() {
+        binding.navCameraContainer.visibility = View.VISIBLE
+        binding.navHostFragment.visibility = View.GONE
+    }
+
+    fun showDetailsScreen(id: Int){
+        onHideNavHostContainer()
+        findNavController(R.id.nav_camera_container).navigate(CameraFragmentDirections.actionCameraFragmentToDetailsFragment(id))
     }
 }

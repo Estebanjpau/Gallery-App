@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presenter.ui.capturePhoto.CapturedPhotoFragment">
+
+    <ImageView
+        android:id="@+id/iv_preview_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_delete_capture_photo"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/outline_close_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/brand" />
+
+    <Button
+        android:id="@+id/btn_keep_capture_photo"
+        style="@style/SubtitleXS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/brand"
+        android:drawableEnd="@drawable/round_arrow_forward_ios_24"
+        android:drawableTint="@color/white"
+        android:text="@string/continue_"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

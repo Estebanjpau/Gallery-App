@@ -13,6 +13,9 @@ interface ImageDao {
     @Query("SELECT * FROM images_table ORDER BY image_path DESC")
     fun getAllImages() : LiveData<List<ImageEntity>>
 
+    @Query("SELECT * FROM images_table WHERE id = :id")
+    fun getImagesById(id: Int) : ImageEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNewImage(image: ImageEntity)
 
